@@ -55,7 +55,7 @@ void cwplayer::playwords()
 		}
 	}
 
-	ifstream boardfile;
+	ifstream boardfile, dictionaryfile;
 
 	string boardfilename, dictionaryfilename, line;
 	int lines = 1;
@@ -71,13 +71,20 @@ void cwplayer::playwords()
 	{
 		cin.clear();
 		cin.ignore(1000, '\n');
-		cout << "File " << "board" << " not found !\n";
+		cerr << "File " << "board" << " not found !\n";
 		cout << "Enter the board file name you want play: ";
 		cin >> boardfilename;
 		boardfile.open(boardfilename);
 	}
 	getline(boardfile, dictionaryfilename);
+	this->dictionaryname = dictionaryfilename;
 	Dictionary dictionary1(dictionaryfilename);
+	
+	getline(boardfile, line); // Skip empty line
 
-	boardfile.ignore(10000,'\n') //skip the second line
+	board1.show_emptyboard();
+	//board1.fill_finished();
+	//board1.show();
+
 }
+

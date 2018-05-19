@@ -16,6 +16,7 @@ public:
 private:
 	string name;
 	string dictionaryname;
+	Board board1;
 };
 
 #endif // CROSS_PLAYER_H
