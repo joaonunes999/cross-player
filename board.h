@@ -50,6 +50,7 @@ public:
 	//checks if all words in the board make sense
 	bool is_word_in_board(string &word);
 	//check if str word is already in board
+	void show_emptyboard();
 
 private:
 	unsigned int lines;

@@ -11,9 +11,11 @@ public:
 
 	void menu();
 	/* Displays a menu with options */
+	void playwords();
 
 private:
-
+	string name;
+	string dictionaryname;
 };
 
 #endif // CROSS_PLAYER_H

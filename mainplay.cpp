@@ -12,5 +12,7 @@ int main()
 	cout << "You are presented with a timer you are playing" << endl << endl;
 	cout << "------------------------------------------------" << endl << endl;
 
+	cwplayer player1;
+	player1.menu();
 
 }
