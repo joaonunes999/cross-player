@@ -22,6 +22,9 @@ void cwplayer::menu() // The user enters an option
 
 	case 1:
 		playwords();
+		dictionary1.show_tracks(board1);
+		start_time();
+		// +++
 		break;
 
 	case 0:
@@ -88,3 +91,12 @@ void cwplayer::playwords()
 
 }
 
+void cwplayer::start_time()
+{
+	startime = clock();
+}
+
+void cwplayer::end_time()
+{
+	endtime = clock();
+}

@@ -13,10 +13,14 @@ public:
 	/* Displays a menu with options */
 	void playwords();
 
+	void start_time();
+	void end_time();
+
 private:
-	string name;
-	string dictionaryname;
+	int startime, endtime;
+	string name, dictionaryname;
 	Board board1;
+	Dictionary dictionary1;
 };
 
 #endif // CROSS_PLAYER_H

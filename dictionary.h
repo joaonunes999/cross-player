@@ -27,13 +27,14 @@ public:
 	@Returns true if it is a valid word, or returns false if the word is not valid  */
 	void print_matches(vector<string> &possible_words);
 	/* prints possible matches for wildcard words from vector possible_words*/
-	
+	void show_tracks(Board bname);
+	/* Shows a clue that is a synonym for each word on the board, indicating the position of the word */
 
 private:
 	map<string, vector<string>> synonymslist;
 	set<string> validwordslist;
-	vector<string> suggestedwords;
 	vector<string> find_matches(vector<string> &possible_words);
+	map<string, string> clues;
 };
 
 #endif //CROSS_PLAYER_DICTIONARY_H

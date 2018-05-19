@@ -1,4 +1,5 @@
-#include "dictionary.h" // Using the dictionary class
+#include "dictionary.h" 
+#include "board.h"
 #include <iostream>
 #include <vector>
 #include <map>
@@ -65,7 +66,6 @@ Dictionary::Dictionary()
 	// Structure
 	map<string, vector<string>> synonymslist;
 	set<string> validwordslist;
-	map<string, vector<string>> suggestedwords;
 }
 
 Dictionary::Dictionary(string filename)
@@ -190,5 +190,57 @@ void Dictionary::print_matches(vector<string> &possible_words)
 	{
 		random_shuffle(possible_words.begin(), words.end());
 		std::cout << "Possible words you could use: " << words.at(0) << ", " << words.at(1) << endl << endl;
+	}
+}
+
+void Dictionary::show_tracks(Board bname)
+{
+	string position, word, clue;
+	vector<string> synonyms;
+	int index;
+	map<string, string> boardwords = bname.mapall_words();
+
+	cout << endl;
+	cout << " HORIZONTAL: " << endl;
+	cout << " ------------- " << endl;
+
+	for (const auto &it : boardwords)
+	{
+		if (it.first[2] == 'H' || it.first[2] == 'h')
+		{
+			position = it.first.substr(0, 2);
+			word = it.second;
+
+			synonyms = synonymslist.find(word)->second;
+			index = rand() & synonyms.size();
+			clue = synonyms[index];
+			cout << position << " - " << clue << endl;
+			
+			// To show more clues later
+			position.push_back('H'); 
+			clues.insert(pair<string, string>(position, clue));
+		}
+	}
+
+	cout << endl;
+	cout << " VERTICAL: " << endl;
+	cout << " ------------- " << endl;
+
+	for (const auto &it : boardwords)
+	{
+		if (it.first[2] == 'V' || it.first[2] == 'v')
+		{
+			position = it.first.substr(0, 2);
+			word = it.second;
+
+			synonyms = synonymslist.find(word)->second;
+			index = rand() & synonyms.size();
+			clue = synonyms[index];
+			cout << position << " - " << clue << endl;
+
+			// To show more clues later
+			position.push_back('V');
+			clues.insert(pair<string, string>(position, clue));
+		}
 	}
 }
