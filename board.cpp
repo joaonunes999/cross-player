@@ -221,7 +221,7 @@ Board::Board(string boardfilename)
 		for (size_t a = 0; a < matrix.at(i).size(); a++)
 		{
 			if (matrix.at(i).at(a) == '\0')
-				matrix.at(i).at(a) = '#';
+				matrix.at(i).at(a) = '.';
 		}
 	}
 
@@ -513,8 +513,11 @@ void Board::addword_nochecking(string position, string word)
 	case 'H':
 	case 'h':
 	{
-		matrix[y - 1][x] = '#';
-		matrix[y + word.length()][x] = '#';
+		if (y - 1 >= 0) //check if it starts in the beginning of the board 
+			matrix[y - 1][x] = '#';
+
+		if (y + word.length() <= columns) //check if it ends in the end of the board 
+			matrix[y + word.length()][x] = '#';
 		size_t i = 0;
 		while (i < word.length())
 		{
@@ -528,9 +531,11 @@ void Board::addword_nochecking(string position, string word)
 	case 'V':
 	case 'v':
 	{
+		if (x - 1 >= 0) //check if it starts in the beginning of the board 
+			matrix[y][x - 1] = '#';
 
-		matrix[y][x - 1] = '#';
-		matrix[y][x + word.length()] = '#';
+		if (x + word.length() <= lines) //check if it ends in the end of the board 
+			matrix[y][x + word.length()] = '#';
 		size_t i = 0;
 		while (i < word.length())
 		{
@@ -739,7 +744,7 @@ void Board::create_playboard()
 }
 
 
-vector<string> Board::take_words_from_board()
+/*ector<string> Board::take_words_from_board()
 {
 	vector<string> words;
 	//get words vertical
@@ -752,10 +757,12 @@ vector<string> Board::take_words_from_board()
 			if (line.at(a) = '#')
 			{
 				words.push_back(line.substr(index, a - index + 1));
-				index = a + 1;
+				index = a ++;
+
 			}
 
 
 	}
 	return words;
 }
+*/
