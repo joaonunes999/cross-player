@@ -21,11 +21,12 @@ void cwplayer::menu() // The user enters an option
 	{
 
 	case 1:
-		playwords();
-		dictionary1.show_tracks();
-		//start_time();
-		//addwordplayer();
-		break;
+	playwords();
+	
+	dictionary1.show_tracks();
+	//start_time();
+	//addwordplayer();
+	break; 
 
 	case 0:
 		cout << " End of program " << endl;
@@ -58,12 +59,11 @@ void cwplayer::playwords()
 		}
 	}
 
-	ifstream boardfile, dictionaryfile;
 
-	string boardfilename, dictionaryfilename, line;
-	string position, word;
-	int lines = 1;
-	int columns = 0;
+	ifstream boardfile, dictionaryfile;
+	string dictionaryfilename;
+
+	string boardfilename;
 
 	cout << "Enter the board file name you want play: ";
 	cin >> boardfilename;
@@ -81,46 +81,20 @@ void cwplayer::playwords()
 		boardfile.open(boardfilename);
 	}
 	getline(boardfile, dictionaryfilename);
-	this->dictionaryname = dictionaryfilename;
 	Dictionary dictionary1(dictionaryfilename);
+	this->dictionaryname = dictionaryfilename;
+	boardfile.close();
 	
-	getline(boardfile, line); // Skip empty line
-
-							  // Count the columns
-
-	getline(boardfile, line) && line != "";
-
-	string strings = " ";
-	for (size_t i = 0; i < line.size(); i++)
+	board1 = Board(boardfilename);
+	//board1.fill_finished();
+	
+	map<string,string> mapall_words = board1.mapall_words();
+	for (auto &it : mapall_words)
 	{
-		strings[0] = line[i];
-		if (strings != " ")
-			columns++;
+		cout << it.first;
+
 	}
 
-	// Count the lines
-
-	while (getline(boardfile, line) && line != "")
-		lines++;
-
-	Board board1(lines, columns);
-	while (getline(boardfile, line))
-	{
-		if (line != "")
-			board1.addword(line.substr(0, line.find(' ')), line.substr(line.find(' ') + 1, line.size() - 1));
-	}
-
-	// Extract word list with positions
-	
-	boardfile.ignore(10000, '\n');
-	getline(boardfile, line);
-	while (getline(boardfile, line))
-	{
-		string position = line.substr(0, 3);
-		string word = line.substr(5, line.length() - 5);
-		mapall_words.insert(pair<string, string>(position, word));
-	}
-	
 	for (auto &it: mapall_words)
 	{
 		string position = it.first;
@@ -249,28 +223,24 @@ void cwplayer::save_game()
 	ofstream output;
 	static unsigned int gamenumber = 0;
 	gamenumber++;
-	string filenameboard;
+	string filenameboard, text;
 
 	stringstream boardname;
 	boardname << 'b' << setw(3) << setfill('0') << gamenumber << "_p.text";
 	filenameboard = boardname.str();
 	
-	/*
-		cout << "Saving your data to " << fileName << endl;
-	file.open(fileName);
+	string text1 = " ----- CROSSWORDS PLAYER ---- ";
+    cout << "The file was saved in " << filenameboard << endl;
+	output.open(filenameboard);	
 
-	title = "PLAYER INFO";
-	string s(title.length(), '=');
-	file << s << endl;
-	file << title << endl;
-	file << s << endl << endl;
-
-	file << "Name: " << playerName << ";\n";
-	file << "Number of times " << playerName << " asked for help: " << counter << ";\n";
-	file << "Time taken to solve puzzle: " << time << " seconds.\n";;
+	
+	output << text1 << endl << endl;
+	output << "Name: " << nameplayer << ";\n";
+	output << "Number of times you asked for help: " << counterclues << ";\n";
+	output << "Time taken to solve puzzle: " << time << " seconds.\n";;
 	
 	cout << "Your data was saved." << endl;
-	*/ 
+	
 }
 
 void cwplayer::finalgame()

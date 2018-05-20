@@ -28,7 +28,6 @@ public:
 	void print_matches(vector<string> &possible_words);
 	/* prints possible matches for wildcard words from vector possible_words*/
 	void boardwordspair(string position, string word);
-	
 	void show_tracks();
 	/* Shows a clue that is a synonym for each word on the board, indicating the position of the word */
 	void other_track(string position);
