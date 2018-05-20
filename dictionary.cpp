@@ -193,12 +193,16 @@ void Dictionary::print_matches(vector<string> &possible_words)
 	}
 }
 
-void Dictionary::show_tracks(Board bname)
+void Dictionary::boardwordspair(string position, string word)
+{
+	boardwords.insert(pair<string, string>(position, word));
+}
+
+void Dictionary::show_tracks()
 {
 	string position, word, clue;
 	vector<string> synonyms;
 	int index;
-	map<string, string> boardwords = bname.mapall_words();
 
 	cout << endl;
 	cout << " HORIZONTAL: " << endl;
@@ -243,4 +247,31 @@ void Dictionary::show_tracks(Board bname)
 			clues.insert(pair<string, string>(position, clue));
 		}
 	}
+	cout << endl;
+}
+
+void Dictionary::other_track(string position)
+{
+	string old_track, word;
+	
+	old_track = clues.find(position)->second;
+	word = boardwords.find(position)->second;
+	
+	vector<string> synonyms = synonymslist.find(word)->second;
+	int index = rand() % synonyms.size();
+
+	while (synonyms[index] == old_track)
+	{
+		if (synonyms.size() == 1)
+		{
+			cout << "The word in position" << position;
+			cout << "has only one synonym: " << old_track << endl;
+		}
+		else
+			index = rand() % synonyms.size();
+	}
+	
+	cout << position << " - " << synonyms[index] << endl;
+	clues.erase(position);
+	clues.insert(pair<string, string>(position, synonyms[index]));
 }

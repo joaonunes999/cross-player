@@ -22,7 +22,7 @@ void cwplayer::menu() // The user enters an option
 
 	case 1:
 		playwords();
-		dictionary1.show_tracks(board1);
+		dictionary1.show_tracks();
 		start_time();
 		// +++
 		break;
@@ -85,7 +85,16 @@ void cwplayer::playwords()
 	
 	getline(boardfile, line); // Skip empty line
 
-	board1.show_emptyboard();
+	map<string, string> mapall_words = board1.mapall_words();
+	for (auto &it: mapall_words)
+	{
+		string position = it.first;
+		string word = it.second;
+		dictionary1.boardwordspair(position, word);
+
+	}
+	
+	//board1.show_emptyboard();
 	//board1.fill_finished();
 	//board1.show();
 
