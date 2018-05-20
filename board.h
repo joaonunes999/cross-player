@@ -1,5 +1,5 @@
-#ifndef CROSS_PLAYER_BOARD_DATE_H
-#define CROSS_PLAYER_BOARD_DATE_H
+#ifndef PROG_EXERC_DATE_H
+#define PROG_EXERC_DATE_H
 
 #include <string>
 #include <vector>
@@ -50,7 +50,9 @@ public:
 	//checks if all words in the board make sense
 	bool is_word_in_board(string &word);
 	//check if str word is already in board
-	void show_emptyboard();
+	void create_playboard();
+	//transforms normal board into ready to play board. letters turn into "."
+
 
 private:
 	unsigned int lines;
@@ -65,4 +67,4 @@ private:
 	void transform_to_pos(string position, int &x, int &y, char &orientation);
 };
 
-#endif //CROSS_PLAYER_BOARD_DATE_H
+#endif //PROG_EXERC_DATE_H
