@@ -24,7 +24,7 @@ void cwplayer::menu() // The user enters an option
 		playwords();
 		dictionary1.show_tracks();
 		start_time();
-		// +++
+		addwordplayer();
 		break;
 
 	case 0:
@@ -85,7 +85,7 @@ void cwplayer::playwords()
 	
 	getline(boardfile, line); // Skip empty line
 
-	map<string, string> mapall_words = board1.mapall_words();
+	mapall_words = board1.mapall_words();
 	for (auto &it: mapall_words)
 	{
 		string position = it.first;
@@ -108,4 +108,72 @@ void cwplayer::start_time()
 void cwplayer::end_time()
 {
 	endtime = clock();
+}
+
+void cwplayer::addwordplayer()
+{
+	string position, word, option;
+	bool continued = true;
+
+	while (continued) {
+
+		cout << "Position (LCD formart) ?: ";
+		cin >> position;
+
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(10000, '\n');
+			cerr << "Invalid input. " << endl;
+			exit(0);
+		}
+
+		cout << "Insert a valid word (- remove / ? - clue): ";
+		cin >> word;
+		if (word == "-")
+		{
+			board1.remove_word(position);
+			insertedwords.erase(position);
+		}
+		else if (word == "?")
+		{
+			dictionary1.other_track(position);
+		}
+		else if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore(1000, '\n');
+			cerr << "Invalid word, nothing added." << endl;
+			exit(1);
+		}
+		else
+		{
+			insertedwords.insert(pair<string, string>(position, word));
+			board1.addword(position, word);
+		}
+
+		// check if board is complete
+		if (insertedwords.size() == mapall_words.size())
+		{
+			cout << "The board is complete, do you want to finish? (yes/no): ";
+
+			do
+			{
+				cin >> option;
+				if (option == "no")
+				{
+					addwordplayer();
+				}
+				else if (option == "yes")
+				{
+					continued = false;
+					//funcao checking
+				}
+				else {
+					cin.clear();
+					cin.ignore(1000, '\n');
+					cerr << "Insert a valid option (yes/no): ";
+				}
+			} while (option != "yes" && option != "no");
+		}
+	}
 }

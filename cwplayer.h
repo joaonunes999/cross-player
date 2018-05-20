@@ -11,16 +11,18 @@ public:
 
 	void menu();
 	/* Displays a menu with options */
-	void playwords();
-
 	void start_time();
 	void end_time();
-
+	
 private:
 	int startime, endtime;
 	string name, dictionaryname;
 	Board board1;
 	Dictionary dictionary1;
+	map<string, string> insertedwords;
+	map<string, string> mapall_words;
+	void playwords();
+	void addwordplayer();
 };
 
 #endif // CROSS_PLAYER_H
