@@ -46,7 +46,7 @@ void cwplayer::playwords()
 	
 	while (true)
 	{
-		cin >> name;
+		cin >> nameplayer;
 
 		if (!cin.fail()) 
 		break; 
@@ -61,6 +61,7 @@ void cwplayer::playwords()
 	ifstream boardfile, dictionaryfile;
 
 	string boardfilename, dictionaryfilename, line;
+	string position, word;
 	int lines = 1;
 	int columns = 0;
 
@@ -85,7 +86,36 @@ void cwplayer::playwords()
 	
 	getline(boardfile, line); // Skip empty line
 
-	mapall_words = board1.mapall_words();
+							  // Count the columns
+
+	getline(boardfile, line) && line != "";
+
+	string strings = " ";
+	for (size_t i = 0; i < line.size(); i++)
+	{
+		strings[0] = line[i];
+		if (strings != " ")
+			columns++;
+	}
+
+	// Count the lines
+
+	while (getline(boardfile, line) && line != "")
+		lines++;
+
+	Board board1(lines, columns);
+	while (getline(boardfile, line))
+	{
+		if (line != "")
+			board1.addword(line.substr(0, line.find(' ')), line.substr(line.find(' ') + 1, line.size() - 1));
+	}
+
+	boardfile.close();
+
+	
+	//mapall_words.insert(pair<string, string>(position, word));
+	
+	
 	for (auto &it: mapall_words)
 	{
 		string position = it.first;
@@ -93,10 +123,10 @@ void cwplayer::playwords()
 		dictionary1.boardwordspair(position, word);
 
 	}
-	
-	//board1.show_emptyboard();
-	//board1.fill_finished();
-	//board1.show();
+
+	board1.fill_finished();
+	board1.create_playboard();
+	board1.show();
 
 }
 
@@ -136,6 +166,7 @@ void cwplayer::addwordplayer()
 		}
 		else if (word == "?")
 		{
+			counterclues++;
 			dictionary1.other_track(position);
 		}
 		else if (cin.fail())
@@ -166,7 +197,11 @@ void cwplayer::addwordplayer()
 				else if (option == "yes")
 				{
 					continued = false;
-					//funcao checking
+					if (finalchecking())
+					{
+						cout << "All the words that are on the board are valid." << endl;
+
+					}
 				}
 				else {
 					cin.clear();
@@ -174,6 +209,69 @@ void cwplayer::addwordplayer()
 					cerr << "Insert a valid option (yes/no): ";
 				}
 			} while (option != "yes" && option != "no");
+		}
+	}
+}
+
+bool cwplayer::finalchecking()
+{
+	bool valid = false;
+	string word;
+	
+	for (const auto &it : insertedwords)
+	{
+		word = it.second;
+		if (!dictionary1.validword(word)) {
+			return valid;
+		}
+		else valid = true;
+	}
+	return valid;
+}
+
+bool cwplayer::finalcheck()
+{
+	for (const auto &it : mapall_words) {
+		if (it.second != mapall_words.find(it.first)->second)
+			return false;
+	}
+	return true;
+}
+
+void cwplayer::save_game()
+{
+
+}
+
+void cwplayer::finalgame()
+{
+	if (finalcheck())
+	{
+		end_time();
+
+		// Results of the game
+		double time;
+		time = (double)(endtime - startime) / CLOCKS_PER_SEC;
+		cout << endl;
+		cout << "Very well, " << nameplayer << " just solved the crossword puzzles." << endl;
+		cout << "You asked for " << counterclues << " tips" << endl;
+		cout << "It took " << time << " seconds to complete the puzzle" << endl << endl;
+
+		save_game();
+
+		// ------------------ Again?
+		cout << "Do you want to play the crossword again? (yes/no): " << endl;
+		string option;
+
+		while (true) {
+			cin >> option;
+			if (option == "yes") {
+				menu();
+				break;
+			}
+			else if (option != "no") {
+				cerr << "Invalid option." << endl;
+			}
 		}
 	}
 }

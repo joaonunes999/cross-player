@@ -16,13 +16,18 @@ public:
 	
 private:
 	int startime, endtime;
-	string name, dictionaryname;
+	int counterclues;
+	string nameplayer, dictionaryname;
 	Board board1;
 	Dictionary dictionary1;
 	map<string, string> insertedwords;
 	map<string, string> mapall_words;
 	void playwords();
 	void addwordplayer();
+	bool finalchecking();
+	bool finalcheck();
+	void save_game();
+	void finalgame();
 };
 
 #endif // CROSS_PLAYER_H
