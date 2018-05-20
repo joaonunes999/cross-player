@@ -1,6 +1,7 @@
 #include "board.h"
 #include "cwplayer.h"
 #include "dictionary.h"
+#include <ctime>
 
 int main()
 {
@@ -12,6 +13,8 @@ int main()
 	cout << "You are presented with a timer you are playing" << endl << endl;
 	cout << "------------------------------------------------" << endl << endl;
 
+	srand(time(NULL));
+	
 	cwplayer player1;
 	player1.menu();
 
